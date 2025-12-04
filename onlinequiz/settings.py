@@ -147,4 +147,11 @@ EMAIL_HOST_PASSWORD = 'waig ntos tnqc zkyy' # host email password required
 # otherwise you will get SMTPAuthenticationError at /contactus
 # this process is required because google blocks apps authentication by default
 EMAIL_RECEIVING_USER = ['contactboardmate@gmail.com'] # email on which you will receive messages sent from website
+<<<<<<< HEAD
+=======
+# settings.py (LAST LINE)
+
+STATIC_URL = '/static/'
+
+>>>>>>> 27e0c332710909610722eb25df00e193528f9d1a
 STATIC_ROOT = BASE_DIR / 'staticfiles'
