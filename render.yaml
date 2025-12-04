@@ -3,6 +3,6 @@ services:
     name: boardmate
     env: python
     region: singapore
-    buildCommand: "pip install -r requirements.txt"
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
     startCommand: "gunicorn onlinequiz.wsgi:application"
     pythonVersion: 3.11
