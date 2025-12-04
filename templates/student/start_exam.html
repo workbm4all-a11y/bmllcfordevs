@@ -1,0 +1,617 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 + jQuery -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <style>
+    :root{
+      --primary: #007bff;
+      --bg-start: #e6f0ff;
+      --bg-end: #f8fbff;
+      --card-bg: #fff;
+      --muted: #6c757d;
+    }
+
+    body {
+      background: linear-gradient(to bottom right, var(--bg-start), var(--bg-end));
+      font-family: "Poppins", sans-serif;
+      margin: 0;
+      padding-top: 90px; /* space for sticky topbar */
+      transition: background 0.3s ease, color 0.3s ease;
+    }
+
+    /* Top sticky bar (camera + timer + controls) */
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      gap: 12px;
+      z-index: 999;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    }
+
+    .camera-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #camera {
+      width: 160px;
+      height: 120px;
+      border-radius: 10px;
+      border: 3px solid var(--primary);
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+    }
+
+    .timer-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .timer-circle {
+      width: 70px;
+      height: 70px;
+      position: relative;
+    }
+
+    .timer-circle svg {
+      transform: rotate(-90deg);
+    }
+
+    .timer-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-weight: 700;
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dark-toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    /* Main quiz container */
+    .quiz-box {
+      background: var(--card-bg);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+      max-width: 1000px;
+      margin: 20px auto 80px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1.courses-title {
+      color: var(--primary);
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    /* Progress bar */
+    .progress-line {
+      height: 10px;
+      background: #e9eefc;
+      border-radius: 50px;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+    .progress-line > .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), #0056d6);
+      transition: width 350ms ease;
+    }
+
+    .progress-label {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom: 12px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    /* Question card */
+    .question {
+      display: none;
+      animation: slideIn 0.45s ease;
+    }
+    .question.active {
+      display: block;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(18px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .option-block {
+      border: 1px solid #e6e9f3;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin: 10px 0;
+      cursor: pointer;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .option-block input[type="radio"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .option-block label {
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .nav-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .nav-panel button {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid #d6dbe9;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .nav-panel button.active {
+      background: linear-gradient(90deg,var(--primary),#0056d6);
+      color:#fff;
+      border: none;
+      box-shadow: 0 4px 12px rgba(0,123,255,0.18);
+    }
+
+    .bottom-actions {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-top:18px;
+    }
+
+    /* Dark mode */
+    body.dark {
+      --bg-start:#0f1724;
+      --bg-end:#0b1220;
+      --card-bg:#0b1220;
+      --primary:#5cc8ff;
+      color:#e6eef8;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      #camera { width: 110px; height: 84px; }
+      .timer-circle { width:56px; height:56px; }
+      .quiz-box { padding: 18px; margin: 12px; }
+      .nav-panel button { width: 36px; height: 36px; }
+      body { padding-top: 100px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Top sticky bar -->
+  <div class="topbar">
+    <div class="camera-wrap">
+      <video id="camera" autoplay playsinline muted></video>
+      <div>
+        <div style="font-weight:700;">Student Camera</div>
+        <div style="font-size:0.85rem;color:var(--muted);">Live monitoring</div>
+      </div>
+    </div>
+
+    <div class="timer-wrap">
+      <div class="timer-circle" title="Time remaining">
+        <!-- circular progress via SVG -->
+        <svg width="70" height="70" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="60" cy="60" r="52" stroke="#e6eefc" stroke-width="14" fill="none"></circle>
+          <circle id="timer-circle-progress" cx="60" cy="60" r="52" stroke="#007bff" stroke-width="14" stroke-linecap="round" fill="none" stroke-dasharray="326.7256" stroke-dashoffset="0"></circle>
+        </svg>
+        <div class="timer-text" id="timer-text">45:00</div>
+      </div>
+
+      <div style="text-align:left;">
+        <div style="font-weight:700;">Exam Timer</div>
+        <div style="font-size:0.85rem;color:var(--muted);">Auto-submit on timeout</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="dark-toggle" id="darkToggle" title="Toggle dark mode">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M21 12.79A9 9 0 1 1 11.21 3A7 7 0 0 0 21 12.79z"/></svg>
+        <small style="font-weight:600;color:var(--muted)">Dark</small>
+      </div>
+
+      {% if user.is_superuser %}
+      <button id="pauseBtn" class="btn btn-outline-secondary btn-sm">Pause</button>
+      {% endif %}
+
+      <div style="font-size:0.86rem;color:var(--muted);">Warnings: <span id="warnCount">0</span>/3</div>
+    </div>
+  </div>
+
+  <!-- Main quiz -->
+  <div class="quiz-box container">
+    <form id="quizForm" class="form" autocomplete="off" onsubmit="return saveAns()" action="/student/calculate-marks" method="POST">
+      {% csrf_token %}
+
+      <h1 class="course-title">{{ course.course_name }}</h1>
+
+      <!-- Progress label + bar -->
+      <div class="progress-label">
+        <div id="progressText">Question 1 of {{ questions|length }}</div>
+        <div id="progressPercent">0%</div>
+      </div>
+      <div class="progress-line"><div class="bar" id="progressBar"></div></div>
+
+      <!-- Questions -->
+      {% for q in questions %}
+      <div class="question {% if forloop.first %}active{% endif %}" id="q{{ forloop.counter }}" data-index="{{ forloop.counter }}">
+        <h4 class="text-info">{{ forloop.counter }}. {{ q.question }}</h4>
+        <h6 class="text-end text-secondary">[Marks {{ q.marks }}]</h6>
+
+        <div class="option-block" onclick="chooseOption(this)">
+          <input type="radio" name="{{ forloop.counter }}" id="q{{ forloop.counter }}o1" value="Option1">
+          <label for="q{{ forloop.counter }}o1">{{ q.option1 }}</label>
+        </div>
+
+        <div class="option-block" onclick="chooseOption(this)">
+          <input type="radio" name="{{ forloop.counter }}" id="q{{ forloop.counter }}o2" value="Option2">
+          <label for="q{{ forloop.counter }}o2">{{ q.option2 }}</label>
+        </div>
+
+        <div class="option-block" onclick="chooseOption(this)">
+          <input type="radio" name="{{ forloop.counter }}" id="q{{ forloop.counter }}o3" value="Option3">
+          <label for="q{{ forloop.counter }}o3">{{ q.option3 }}</label>
+        </div>
+
+        <div class="option-block" onclick="chooseOption(this)">
+          <input type="radio" name="{{ forloop.counter }}" id="q{{ forloop.counter }}o4" value="Option4">
+          <label for="q{{ forloop.counter }}o4">{{ q.option4 }}</label>
+        </div>
+
+        <div class="bottom-actions">
+          <div>
+            {% if not forloop.first %}
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="showQuestion({{ forloop.counter|add:'-1' }})">← Prev</button>
+            {% endif %}
+          </div>
+
+          <div>
+            {% if not forloop.last %}
+            <button type="button" class="btn btn-outline-primary btn-sm" onclick="nextQuestion({{ forloop.counter }})">Next →</button>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+      <!-- Navigation panel -->
+      <div class="nav-panel" id="navPanel">
+        {% for q in questions %}
+        <button type="button" class="{% if forloop.first %}active{% endif %}" onclick="showQuestion({{ forloop.counter }})" id="nav{{ forloop.counter }}">{{ forloop.counter }}</button>
+        {% endfor %}
+      </div>
+
+      <div style="margin-top:14px; display:flex; justify-content:space-between; align-items:center;">
+        <div style="color:var(--muted); font-weight:600;">BEST OF LUCK</div>
+        <div>
+          <input type="submit" class="btn btn-success btn-lg" value="Submit">
+        </div>
+      </div>
+
+      <!-- Hidden helper: keep cookie token same as before (no change to logic) -->
+      <!-- (your form and csrf remain intact) -->
+    </form>
+  </div>
+
+  <script>
+    // ---------- SETTINGS ----------
+    const TOTAL_SECONDS_INIT = 45 * 60; // 45 minutes
+    const totalQuestions = {{ questions|length }};
+    let totalSeconds = TOTAL_SECONDS_INIT;
+    let countdownInterval = null;
+    let warnCount = 0;
+    let paused = false;
+
+    // ---------- CAMERA ----------
+    (function startCamera(){
+      navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(stream => { document.getElementById('camera').srcObject = stream; })
+        .catch(err => console.warn('Camera not accessible:', err));
+    })();
+
+    // ---------- TIMER (circular) ----------
+    const circle = document.getElementById('timer-circle-progress');
+    const fullLength = 2 * Math.PI * 52; // r=52
+    circle.style.strokeDasharray = fullLength;
+    circle.style.strokeDashoffset = 0;
+
+    function startCountdown() {
+      clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        if (paused) return;
+        totalSeconds--;
+        updateTimerUI();
+        if (totalSeconds <= 0) {
+          clearInterval(countdownInterval);
+          alert("Time's up! Your test will now be submitted.");
+          finalizeAndSubmit('timeout');
+        }
+      }, 1000);
+    }
+
+    function updateTimerUI(){
+      const minutes = Math.floor(Math.max(totalSeconds,0)/60);
+      const seconds = Math.max(totalSeconds,0) % 60;
+      document.getElementById('timer-text').textContent = `${minutes}:${seconds.toString().padStart(2,'0')}`;
+
+      // update circle
+      const fraction = Math.max(totalSeconds,0) / TOTAL_SECONDS_INIT;
+      const dashOffset = fullLength * (1 - fraction);
+      circle.style.strokeDashoffset = dashOffset;
+
+      // optional color change near end
+      if (fraction < 0.2) circle.style.stroke = '#ff6b6b';
+      else circle.style.stroke = '#007bff';
+    }
+
+    // ---------- PROGRESS UI ----------
+    function updateProgressUI(currentIndex){
+      const current = currentIndex || getCurrentQuestionIndex();
+      const percent = Math.round((current / totalQuestions) * 100);
+      document.getElementById('progressBar').style.width = percent + '%';
+      document.getElementById('progressText').textContent = `Question ${current} of ${totalQuestions}`;
+      document.getElementById('progressPercent').textContent = `${percent}%`;
+
+      // nav active
+      for (let i=1;i<=totalQuestions;i++){
+        const btn = document.getElementById('nav'+i);
+        if (btn) btn.classList.toggle('active', i === current);
+      }
+    }
+
+    function getCurrentQuestionIndex(){
+      const visible = document.querySelector('.question.active');
+      if (!visible) return 1;
+      return parseInt(visible.getAttribute('data-index') || 1);
+    }
+
+    // ---------- QUESTION NAVIGATION ----------
+    function showQuestion(index){
+      // bounds
+      if (index < 1) index = 1;
+      if (index > totalQuestions) index = totalQuestions;
+
+      const current = document.querySelector('.question.active');
+      const next = document.getElementById('q' + index);
+      if (!next) return;
+
+      if (current) current.classList.remove('active');
+      // slide animation (jquery fade + add active)
+      $(current).hide();
+      $(next).show();
+      next.classList.add('active');
+
+      updateProgressUI(index);
+    }
+
+    function nextQuestion(current){
+      // auto move to next
+      const nextIndex = current + 1;
+      if (nextIndex <= totalQuestions) showQuestion(nextIndex);
+    }
+
+    // ---------- CLICKABLE OPTIONS & AUTO-SAVE ----------
+    function chooseOption(div){
+      const input = div.querySelector("input[type='radio']");
+      if (!input) return;
+      input.checked = true;
+      // save to localStorage
+      const name = input.name;
+      const value = input.value;
+      localStorage.setItem('quiz_ans_' + name, value);
+
+      // Also save to cookie as before, to keep previous logic intact
+      setCookie(name, value, 3);
+    }
+
+    // restore checked options from localStorage on load
+    function restoreAnswersFromLocalStorage(){
+      for (let i=1; i<= totalQuestions; i++){
+        const stored = localStorage.getItem('quiz_ans_' + i);
+        if (stored){
+          // find input with name i and value stored
+          const selector = `input[name="${i}"][value="${stored}"]`;
+          const input = document.querySelector(selector);
+          if (input) input.checked = true;
+        }
+      }
+    }
+
+    // ---------- SAVE BEFORE SUBMIT (keeps original cookie behavior) ----------
+    function saveAns(){
+      // save all checked radios to cookie and localStorage
+      const inputs = document.querySelectorAll('input[type="radio"]');
+      for (let i=0;i<inputs.length;i++){
+        const el = inputs[i];
+        if (el.checked){
+          setCookie(el.name, el.value, 3);
+          localStorage.setItem('quiz_ans_' + el.name, el.value);
+        }
+      }
+      // confirm if skipped
+      const unanswered = countUnanswered();
+      if (unanswered > 0){
+        const ok = confirm(`You have skipped ${unanswered} question(s). Submit anyway?`);
+        if (!ok) return false;
+      }
+
+      // optionally clear localStorage for this quiz (if you want) AFTER submit on server side
+      // localStorage.clear(); <-- do not clear here to allow server-side redirect, unless you want
+      return true;
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+      var expires = "expires="+ d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function countUnanswered(){
+      let cnt = 0;
+      for (let i=1;i<=totalQuestions;i++){
+        const anyChecked = !!document.querySelector(`input[name="${i}"]:checked`);
+        if (!anyChecked) cnt++;
+      }
+      return cnt;
+    }
+
+    // ---------- TAB SWITCH DETECTION + WARNINGS ----------
+    document.addEventListener('visibilitychange', function(){
+      if (document.hidden){
+        warnCount++;
+        document.getElementById('warnCount').textContent = warnCount;
+        alert(`Warning ${warnCount}: You left the exam tab/window. (${warnCount}/3)`);
+        if (warnCount >= 3){
+          // auto-submit
+          finalizeAndSubmit('tab-violations');
+        }
+      }
+    });
+
+    // ---------- DISABLE COPY/PASTE/CUT ----------
+    ['copy','paste','cut','contextmenu'].forEach(ev => {
+      document.addEventListener(ev, function(e){ e.preventDefault(); });
+    });
+
+    // ---------- PAUSE / RESUME (admin only) ----------
+    {% if user.is_superuser %}
+    document.getElementById('pauseBtn').addEventListener('click', function(){
+      paused = !paused;
+      if (paused){
+        this.textContent = 'Resume';
+        // optionally disable inputs while paused
+        document.querySelectorAll('input[type="radio"]').forEach(i=> i.disabled = true);
+      } else {
+        this.textContent = 'Pause';
+        document.querySelectorAll('input[type="radio"]').forEach(i=> i.disabled = false);
+      }
+    });
+    {% endif %}
+
+    // ---------- DARK MODE TOGGLE ----------
+    document.getElementById('darkToggle').addEventListener('click', function(){
+      document.body.classList.toggle('dark');
+    });
+
+    // ---------- NAV SHORTCUT: number keys (1..N) ----------
+    document.addEventListener('keydown', function(e){
+      if (e.key >= '1' && e.key <= '9'){
+        const idx = parseInt(e.key);
+        if (idx <= totalQuestions) showQuestion(idx);
+      }
+      // n for next, p for prev
+      if (e.key === 'n') {
+        const cur = getCurrentQuestionIndex();
+        if (cur < totalQuestions) showQuestion(cur+1);
+      }
+      if (e.key === 'p') {
+        const cur = getCurrentQuestionIndex();
+        if (cur > 1) showQuestion(cur-1);
+      }
+    });
+
+    // ---------- FINALIZE AND SUBMIT (used for timeouts & auto-submit) ----------
+    function finalizeAndSubmit(reason){
+      // Save current answers first
+      const inputs = document.querySelectorAll('input[type="radio"]');
+      for (let i=0;i<inputs.length;i++){
+        const el = inputs[i];
+        if (el.checked){
+          localStorage.setItem('quiz_ans_' + el.name, el.value);
+          setCookie(el.name, el.value, 3);
+        }
+      }
+
+      // Optionally show a different message for reason
+      if (reason === 'timeout'){
+        // already alerted in timer
+      } else if (reason === 'tab-violations'){
+        alert("You triggered multiple tab switches. The exam will be submitted automatically.");
+      }
+
+      // Submit form
+      const frm = document.getElementById('quizForm');
+      // optionally disable further input
+      frm.querySelectorAll('input, button').forEach(el=> el.disabled = true);
+      frm.submit();
+    }
+
+    // ---------- ON LOAD ----------
+    $(document).ready(function(){
+      // show/hide questions properly (jQuery hide/show)
+      $('.question').hide();
+      $('.question.active').show();
+
+      restoreAnswersFromLocalStorage();
+      updateProgressUI(getCurrentQuestionIndex());
+      updateTimerUI();
+      startCountdown();
+
+      // update progress when option selected (click on radio directly too)
+      $('input[type="radio"]').on('change', function(){
+        const name = this.name, value = this.value;
+        localStorage.setItem('quiz_ans_' + name, value);
+        setCookie(name, value, 3);
+      });
+
+      // keep progress updated if user jumps
+      $('.question').on('show', function(){
+        updateProgressUI(getCurrentQuestionIndex());
+      });
+    });
+  </script>
+</body>
+
+{% endblock content %}                               

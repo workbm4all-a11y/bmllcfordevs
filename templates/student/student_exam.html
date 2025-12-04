@@ -1,0 +1,169 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style>
+    body {
+      background: #f4f7ff;
+      font-family: "Poppins", sans-serif;
+      -webkit-font-smoothing: antialiased !important;
+      text-rendering: optimizeLegibility !important;
+    }
+
+    .container {
+      margin-top: 35px;
+      max-width: 900px;
+    }
+
+    .panel {
+      border-radius: 16px;
+      border: none;
+      overflow: hidden;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+    }
+
+    .panel-heading {
+      background: #0050ff;
+      padding: 32px 20px;
+      text-align: center;
+    }
+
+    .panel-title {
+      color: white;
+      font-size: 32px;        /* BIGGER TITLE */
+      font-weight: 800;
+      margin: 0;
+      letter-spacing: 0.5px;
+    }
+
+    /* Search bar */
+    #searchBox {
+      margin: 28px auto;
+      display: block;
+      width: 80%;
+      max-width: 600px;
+      padding: 16px 22px;
+      border-radius: 40px;
+      border: 2px solid #0050ff;
+      font-size: 20px;         /* BIGGER TEXT */
+      text-align: center;
+      transition: 0.25s;
+    }
+
+    /* BIGGER CARD DESIGN */
+    .exam-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px 30px;       /* MORE SPACE */
+      margin: 18px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+
+      border: 1px solid #e1e7f0;
+      transition: 0.25s;
+    }
+
+    .exam-card:hover {
+      box-shadow: 0 6px 18px rgba(0,102,255,0.18);
+      border-color: #bad1ff;
+    }
+
+    .exam-name {
+      font-size: 22px;       /* BIGGER TEXT */
+      font-weight: 600;
+      color: #111;
+      flex: 1;
+      padding-right: 15px;
+      line-height: 1.4;
+    }
+
+    .start-btn {
+      background: #ff3d3d;
+      border: none;
+      padding: 15px 34px;    /* BIGGER BUTTON */
+      font-size: 20px;       /* BIGGER TEXT */
+      border-radius: 35px;
+      color: white;
+      font-weight: 700;
+      transition: 0.25s;
+    }
+
+    .start-btn:hover {
+      background: #e22f2f;
+      box-shadow: 0 6px 18px rgba(255,61,61,0.45);
+    }
+
+    /* MOBILE VIEW */
+    @media(max-width: 768px){
+
+      .panel-title {
+        font-size: 28px;
+      }
+
+      #searchBox {
+        width: 92%;
+        font-size: 20px;
+      }
+
+      .exam-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 26px 22px;
+      }
+
+      .exam-name {
+        font-size: 20px;
+        margin-bottom: 16px;
+      }
+
+      .start-btn {
+        width: 100%;
+        text-align: center;
+        font-size: 22px;       /* MOBILE EXTRA BIG */
+        padding: 16px 0;
+      }
+    }
+  </style>
+</head>
+
+<div class="container">
+  <div class="panel">
+    <div class="panel-heading">
+      <h6 class="panel-title">Tests</h6>
+    </div>
+
+    <input type="text" id="searchBox" placeholder="Search Class / Subject / Chapter 🔍">
+
+    <div id="dev-table">
+      {% for t in courses %}
+      <div class="exam-card">
+        <div class="exam-name">{{ t.course_name }}</div>
+
+        <a href="{% url 'take-exam' t.id %}">
+          <button class="start-btn">Start →</button>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+    $("#searchBox").on("keyup", function(){
+      var value = $(this).val().toLowerCase();
+      $("#dev-table .exam-card").filter(function(){
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+      });
+    });
+  });
+</script>
+
+{% endblock content %}

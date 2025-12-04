@@ -1,0 +1,164 @@
+{% extends 'quiz/adminbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #eef2f3, #dfe9f3);
+      font-family: "Poppins", sans-serif;
+      min-height: 100vh;
+    }
+
+    h2.dashboard-title {
+      text-align: center;
+      font-weight: 700;
+      color: #0d6efd;
+      margin: 40px 0 30px;
+      letter-spacing: 0.5px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease-in-out;
+      position: relative;
+      overflow: hidden;
+      color: #fff;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.1;
+      background: url("https://www.transparenttextures.com/patterns/cubes.png");
+      z-index: 0;
+    }
+
+    .card .card-body {
+      position: relative;
+      z-index: 1;
+      padding: 35px 30px;
+    }
+
+    .bg-c-blue {
+      background: linear-gradient(135deg, #00b4db, #0083b0);
+    }
+
+    .bg-c-green {
+      background: linear-gradient(135deg, #38b2ac, #319795);
+    }
+
+    .bg-c-yellow {
+      background: linear-gradient(135deg, #f6d365, #fda085);
+    }
+
+    .bg-c-pink {
+      background: linear-gradient(135deg, #f093fb, #f5576c);
+    }
+
+    .card h6 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      letter-spacing: 0.3px;
+    }
+
+    .card h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+    }
+
+    .icon-circle {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+
+    a.dashboard-link {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    a.dashboard-link:hover {
+      text-decoration: none;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 576px) {
+      .card .card-body {
+        padding: 25px 20px;
+      }
+      h2.dashboard-title {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+
+<h2 class="dashboard-title">📊 Admin Dashboard</h2>
+
+<div class="container">
+  <div class="row g-4 justify-content-center">
+
+    <!-- Total Students -->
+    <div class="col-md-6 col-lg-4">
+      <a href="admin-view-student" class="dashboard-link">
+        <div class="card bg-c-blue">
+          <div class="card-body text-center">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+            <h6>Total Students</h6>
+            <h2>{{ total_student }}</h2>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Student Marks -->
+    <div class="col-md-6 col-lg-4">
+      <a href="admin-view-student-marks" class="dashboard-link">
+        <div class="card bg-c-green">
+          <div class="card-body text-center">
+            <div class="icon-circle mx-auto mb-3">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <h6>Student Marks</h6>
+            <h2>😊</h2>
+          </div>
+        </div>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<br><br><br>
+{% endblock content %}

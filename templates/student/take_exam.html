@@ -1,0 +1,154 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(120deg, #d4fc79, #96e6a1);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .jumbotron {
+      background: #ffffffc9;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      padding: 30px 20px;
+      animation: fadeIn 0.8s ease-in-out;
+      max-width: 100%;
+      width: 100%;
+    }
+
+    .card {
+      border-radius: 15px;
+      box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+      background: #f8f9fa;
+      transition: all 0.3s ease;
+      width: 100%;
+      margin: 10px auto;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-title {
+      color: #007bff;
+      font-weight: 600;
+    }
+
+    ul {
+      margin-left: 20px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .btn-info {
+      border-radius: 30px;
+      font-weight: 600;
+      padding: 10px 25px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border: none;
+    }
+
+    .btn-info:hover {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+      transform: scale(1.05);
+    }
+
+    .card-footer {
+      text-align: center;
+      background: #e9f7ef;
+      border-top: none;
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    .text-center h3 {
+      font-weight: 600;
+      color: #007bff;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 767px) {
+      .jumbotron {
+        padding: 20px 10px;
+      }
+
+      .card {
+        margin: 10px;
+      }
+
+      ul {
+        margin-left: 10px;
+        font-size: 14px;
+      }
+
+      .btn-info {
+        padding: 10px 20px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<div class="container my-4">
+  <div class="jumbotron">
+    <h3 class="text-info text-center">📝 परीक्षा शुरू करने से पहले कुछ ज़रूरी बातें</h3>
+
+    <div class="row">
+      <div class="card border-info">
+        <div class="card-body text-info">
+
+          <h4 class="card-title">📘 परीक्षा विवरण :</h4>
+          <ul>
+            <li>परीक्षा का नाम : <b>{{course.course_name}}</b></li>
+            <li>कुल प्रश्न : <b>{{total_questions}}</b></li>
+            <li>कुल अंक : <b>{{total_marks}}</b></li>
+            <li>समय सीमा : <b>45 मिनट</b></li>
+            <li>📷 लाइव कैमरा सक्रिय रहेगा — कृपया कैमरा ऑन रखें।</li>
+          </ul>
+
+          <h4 class="card-title">⚠️ नियम एवं निर्देश :</h4>
+          <ul>
+            <li>सभी प्रश्न <b>वस्तुनिष्ठ (MCQ)</b> होंगे।</li>
+            <li><span class="text-danger">हर प्रश्न का केवल एक ही उत्तर सही होगा।</span></li>
+            <li>हर प्रश्न के अंक अलग-अलग हो सकते हैं।</li>
+            <li>परीक्षा के लिए आपके पास कुल <b>45 मिनट</b> का समय है।</li>
+            <li>परीक्षा शुरू होते ही टाइमर चालू हो जाएगा।</li>
+            <li>पेज रिफ्रेश या बैक करने पर वर्तमान प्रश्न <b>प्रयास किया गया</b> माना जाएगा।</li>
+            <li>हर विद्यार्थी के लिए प्रश्नों का क्रम <b>अलग-अलग</b> होगा।</li>
+            <li>उत्तर जमा करते ही आप <b>MARKS वाले सेक्शन में निचे जाए</b> वही आपको RESULT दिखाई देंगे।</li>
+            <li>📱 कृपया परीक्षा के दौरान किसी भी बाहरी ऐप या टैब का प्रयोग न करें।</li>
+            <li>ईमानदारी से परीक्षा दें — <b>आपकी सफलता आपके प्रयास पर निर्भर है!</b></li>
+          </ul>
+
+          <div class="text-center mt-4">
+            <a href="{% url 'start-exam' course.id %}" class="btn btn-info btn-lg">
+              🚀 परीक्षा शुरू करें
+            </a>
+          </div>
+
+        </div>
+        <div class="card-footer">✨ शुभकामनाएँ — अपना सर्वश्रेष्ठ दें! ✨</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="hi" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BoardMate | शुरू करें अपनी तैयारी</title>
+  <meta name="description" content="BoardMate - बिहार बोर्ड के छात्रों के लिए फ्री नोट्स, MCQs, PYQs और टेस्ट सीरीज़। अब तैयारी होगी स्मार्ट तरीके से, बिना तनाव, बिना रुकावट।">
+<meta name="keywords" content="BoardMate, Bihar Board, Class 9, Class 10, Class 11, Class 12, Free Notes, MCQs, PYQs, Test Series, Study Partner">
+<meta name="author" content="BoardMate Team">
+<meta property="og:title" content="BoardMate | शुरू करें अपनी तैयारी">
+<meta property="og:description" content="बिहार बोर्ड छात्रों के लिए फ्री स्टडी प्लेटफॉर्म — नोट्स, MCQs, PYQs, और टेस्ट सीरीज़ एक ही जगह।">
+<meta property="og:image" content="{% static 'images/boardmate-banner.jpg' %}">
+<meta name="robots" content="index, follow">
+
+  <link href="//netdna.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="//netdna.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Baloo+2:wght@600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Baloo 2', cursive;
+      background: radial-gradient(circle at 10% 20%, #141E30, #243B55);
+      color: white;
+      overflow-x: hidden;
+      animation: fadeDown 1.8s ease;
+      position: relative;
+    }
+
+    /* ✨ Star background */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: transparent;
+      pointer-events: none;
+      background-image: radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.3), transparent),
+                        radial-gradient(1px 1px at 70% 40%, rgba(255,255,255,0.25), transparent),
+                        radial-gradient(2px 2px at 50% 80%, rgba(255,255,255,0.3), transparent),
+                        radial-gradient(1.5px 1.5px at 90% 10%, rgba(255,255,255,0.25), transparent);
+      animation: twinkle 10s linear infinite;
+      z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0%,100% { opacity: 0.7; transform: translateY(0px); }
+      50% { opacity: 1; transform: translateY(10px); }
+    }
+
+    nav.navbar {
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(8px);
+      transition: all 0.3s ease;
+      z-index: 10;
+      position: relative;
+    }
+    nav.navbar:hover { background: rgba(0,0,0,0.7); }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 🎞️ Slider */
+    #homeSlider {
+      max-width: 700px;
+      margin: 70px auto 0;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 25px rgba(0, 200, 255, 0.4);
+      perspective: 1000px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .carousel-inner img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 20px;
+      transform: scale(0.96);
+      transition: transform 0.6s ease, box-shadow 0.4s ease;
+    }
+
+    .carousel-inner img:hover {
+      transform: scale(1.03) rotateY(3deg);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+    }
+
+    .carousel-control-prev, .carousel-control-next {
+      filter: invert(1);
+      width: 7%;
+    }
+
+    .carousel-indicators li {
+      background-color: #00c6ff;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+    }
+
+    /* 🌠 Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+      background: linear-gradient(135deg, rgba(0, 204, 255, 0.15), rgba(255, 255, 255, 0.05));
+      animation: fadeIn 1.5s ease-in-out;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      background: linear-gradient(90deg, #00c6ff, #0072ff, #00ffcc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+      text-transform: uppercase;
+      animation: slideIn 2s ease;
+      margin-top: 10px;
+    }
+
+    .lottie-top {
+      width: 320px;
+      height: 320px;
+      margin-bottom: 10px;
+      animation: fadeUp 2s ease;
+    }
+
+    .hero p.lead {
+      font-size: 1.4rem;
+      max-width: 650px;
+      color: #e3f2fd;
+      margin: 20px auto;
+      line-height: 1.8;
+      animation: fadeIn 2s ease;
+    }
+
+    .quote {
+      font-size: 1.6rem;
+      color: #FFD700;
+      margin-top: 15px;
+      animation: fadeUp 3s ease;
+    }
+
+    .btn-wrap {
+      margin-top: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .btn-start, .btn-login {
+      border: none;
+      padding: 14px 40px;
+      font-size: 1.1rem;
+      border-radius: 50px;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .btn-start {
+      background: linear-gradient(90deg, #00c6ff, #0072ff);
+      box-shadow: 0 0 15px rgba(0, 114, 255, 0.5);
+    }
+    .btn-start:hover {
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+      box-shadow: 0 0 25px rgba(0, 204, 255, 0.9);
+      transform: translateY(-2px);
+    }
+
+    .btn-login {
+      background: linear-gradient(90deg, #ff8c00, #ff5f6d);
+      box-shadow: 0 0 15px rgba(255, 111, 0, 0.5);
+    }
+    .btn-login:hover {
+      background: linear-gradient(90deg, #ff5f6d, #ff8c00);
+      box-shadow: 0 0 25px rgba(255, 140, 0, 0.8);
+      transform: translateY(-2px);
+    }
+
+    .lottie-bottom {
+      display: flex;
+      justify-content: center;
+      margin: 80px 0 30px 0;
+      animation: fadeIn 3s ease;
+    }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-40px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 768px) {
+      #homeSlider { max-width: 95%; margin-top: 30px; }
+      .carousel-inner img { height: 230px; }
+      .hero h1 { font-size: 2.3rem; }
+      .hero p.lead { font-size: 1.1rem; }
+      .quote { font-size: 1.3rem; }
+      .btn-start, .btn-login { font-size: 1rem; padding: 12px 30px; }
+      .lottie-top, .lottie-bottom { width: 220px; height: 220px; }
+    }
+  </style>
+</head>
+
+<body>
+  {% include "quiz/navbar.html" %}
+
+  <!-- 🌌 Slider -->
+  <div id="homeSlider" class="carousel slide" data-ride="carousel" data-interval="3000">
+    <ol class="carousel-indicators">
+      <li data-target="#homeSlider" data-slide-to="0" class="active"></li>
+      <li data-target="#homeSlider" data-slide-to="1"></li>
+      <li data-target="#homeSlider" data-slide-to="2"></li>
+    </ol>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="https://iili.io/Kbh1xgS.png" alt="Slide 1">
+      </div>
+      <div class="carousel-item">
+        <img src="https://iili.io/KbjSqes.png" alt="Slide 2">
+      </div>
+      <div class="carousel-item">
+        <img src="https://iili.io/Kbk7XrQ.md.png" alt="Slide 3">
+      </div>
+    </div>
+    <a class="carousel-control-prev" href="#homeSlider" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon"></span>
+    </a>
+    <a class="carousel-control-next" href="#homeSlider" role="button" data-slide="next">
+      <span class="carousel-control-next-icon"></span>
+    </a>
+  </div>
+
+  <!-- 🎓 Hero -->
+  <section class="hero">
+    <dotlottie-wc src="https://lottie.host/3b5d17a1-e155-438b-8f2c-bd96dabfa6fc/m13sGHUMyA.lottie" class="lottie-top" autoplay loop></dotlottie-wc>
+    <h1>चलिए, शुरुआत करें!</h1>
+    <p class="lead">अब आपकी मेहनत बनेगी टॉप रैंक की पहचान। यहाँ हर क्विज़, आपके सपनों की मंज़िल के एक कदम और करीब ले जाएगी।</p>
+    <p class="quote">अगर आपने अब तक साइन अप नहीं किया है, तो अभी जुड़िए — और पाएँ अपने विषयों पर हज़ारों क्विज़ का एक्सेस।</p>
+    <div class="btn-wrap">
+      <a href="/student/studentsignup" class="btn btn-start">🚀 अभी साइन अप करें</a>
+      <a href="/student/studentlogin" class="btn btn-login">🎓 स्टूडेंट लॉगिन</a>
+    </div>
+  </section>
+
+  <div class="lottie-bottom">
+    <dotlottie-wc src="https://lottie.host/922f9f77-34d4-4345-912b-62ada9c5208a/sftsv36wlO.lottie" style="width:300px;height:300px" autoplay loop></dotlottie-wc>
+  </div>
+
+  {% include "quiz/footer.html" %}
+</body>
+</html>

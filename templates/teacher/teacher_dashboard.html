@@ -1,0 +1,129 @@
+{% extends 'teacher/teacherbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap 5 & FontAwesome -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://kit.fontawesome.com/a2d9a4b2f0.js" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+    }
+
+    .dashboard-container {
+      max-width: 1100px;
+      margin: 60px auto;
+      padding: 20px;
+    }
+
+    .dashboard-title {
+      text-align: center;
+      font-weight: 700;
+      font-size: 2rem;
+      color: #1e40af;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      color: #fff;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .card i {
+      font-size: 40px;
+      opacity: 0.85;
+    }
+
+    .card h6 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .card h2 {
+      font-weight: 700;
+      font-size: 2.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .bg-blue {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    }
+
+    .bg-green {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+    }
+
+    .bg-yellow {
+      background: linear-gradient(135deg, #facc15, #ca8a04);
+    }
+
+    .bg-pink {
+      background: linear-gradient(135deg, #ec4899, #db2777);
+    }
+
+    @media (max-width: 768px) {
+      .card h2 {
+        font-size: 1.6rem;
+      }
+
+      .card i {
+        font-size: 32px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard-container">
+    <h2 class="dashboard-title"><i class="fas fa-chalkboard-teacher me-2"></i>Teacher Dashboard</h2>
+
+    <div class="row g-4">
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card bg-green p-4">
+          <h6>Total Students</h6>
+          <h2><span>{{ total_student }}</span> <i class="fas fa-user-graduate"></i></h2>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card bg-yellow p-4">
+          <h6>Total Exams</h6>
+          <h2><span>{{ total_course }}</span> <i class="fas fa-book"></i></h2>
+        </div>
+      </div>
+
+      <div class="col-md-4 col-sm-6">
+        <div class="card bg-pink p-4">
+          <h6>Total Questions</h6>
+          <h2><span>{{ total_question }}</span> <i class="fas fa-question-circle"></i></h2>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+{% endblock content %}

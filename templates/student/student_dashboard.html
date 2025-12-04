@@ -1,0 +1,256 @@
+{% extends 'student/studentbase.html' %}
+{% load widget_tweaks %}
+{% block content %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    a:link { text-decoration: none; }
+
+    .order-card {
+      color: #fff;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      cursor: pointer;
+    }
+    .order-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0px 10px 20px rgba(0,0,0,0.4);
+    }
+    .bg-c-yellow { background: #F56565; }
+    .bg-c-pink { background: #663a30; }
+
+    .card {
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border: 1px solid #000;
+      margin-bottom: 20px;
+      transition: all 0.3s ease-in-out;
+      border-radius: 10px;
+    }
+    .card .card-block { padding: 20px; }
+
+    /* Popup animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .popup-msg {
+      display: none;
+      position: fixed;
+      bottom: 60px;
+      right: 20px;
+      background: #4C51BF;
+      color: #fff;
+      padding: 15px 25px;
+      border-radius: 10px;
+      font-size: 16px;
+      box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+      animation: fadeInUp 0.8s ease;
+      z-index: 999;
+    }
+
+    /* Slider Section */
+    .slider-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      margin: 25px 0;
+      border-radius: 15px;
+    }
+    .slider-track {
+      display: flex;
+      width: calc(260px * 6);
+      animation: scroll 22s linear infinite;
+    }
+    .slider-track img {
+      width: 260px;
+      margin: 0 10px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      animation: fadeInUp 1.5s ease forwards;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .slider-track img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    }
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .fade-slide:nth-child(1){animation-delay:0.2s;}
+    .fade-slide:nth-child(2){animation-delay:0.4s;}
+    .fade-slide:nth-child(3){animation-delay:0.6s;}
+    .fade-slide:nth-child(4){animation-delay:0.8s;}
+    .fade-slide:nth-child(5){animation-delay:1s;}
+    .fade-slide:nth-child(6){animation-delay:1.2s;}
+
+    /* Buttons Row */
+    .action-buttons {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .action-buttons .btn {
+      margin: 6px;
+      border-radius: 25px;
+      padding: 10px 18px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .action-buttons .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+
+<br><br>
+
+<div class="container">
+  <div class="row">
+    <!-- Total Exams -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card bg-c-yellow order-card text-center">
+        <div class="card-block">
+          <h6>Total Exams</h6>
+          <h3>{{total_course}}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Questions -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card bg-c-pink order-card text-center">
+        <div class="card-block">
+          <h6>Total Questions</h6>
+          <h3>{{total_question}}</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Start Exam -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card bg-c-yellow order-card text-center">
+        <div class="card-block">
+          <h6>Start Exam</h6>
+          <a href="{% url 'student-exam' %}" class="btn btn-light mt-2">Start</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Download PDF -->
+    <div class="col-md-6 col-xl-3">
+      <div class="card bg-c-pink order-card text-center">
+        <div class="card-block">
+          <h6>Download PDF</h6>
+          <a href="https://boardmate.blogspot.com/" target="_blank" class="btn btn-light mt-2">Download</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if request.user.student.result_set.all %}
+    {% with recent=request.user.student.result_set.last %}
+    <div class="card mb-3" style="padding:15px;">
+        <h4 class="mb-2">Recent Test Result</h4>
+        <p><strong>Course:</strong> {{ recent.exam.name }}</p>
+        <p><strong>Marks:</strong> {{ recent.marks }}</p>
+
+        <p>
+            <strong>Total:</strong> 
+            {{ recent.marks }} / {{ recent.exam.question_set.all|length }}
+        </p>
+
+        <a href="{% url 'check-marks' recent.exam.id %}" class="btn btn-primary">
+            View Full Result
+        </a>
+    </div>
+    {% endwith %}
+{% endif %}
+
+
+  <!-- Buttons Below -->
+  <div class="action-buttons">
+    <a href="https://boardmate.blogspot.com" target="_blank" class="btn btn-outline-primary">Visit Blog</a>
+    <a href="https://www.youtube.com/" target="_blank" class="btn btn-outline-success">See How to Start</a>
+    <a href="https://69307a3981627989289bbe31--lively-cucurucho-3ce5c7.netlify.app/" class="btn btn-outline-danger">Donate ❤️</a>
+  </div>
+
+  <!-- Slider Section -->
+  <div class="slider-container">
+    <div class="slider-track">
+      <img src="https://iili.io/Kbh1xgS.png" alt="Slide 1" class="fade-slide">
+      <img src="https://iili.io/KbjSqes.png" alt="Slide 2" class="fade-slide">
+      <img src="https://iili.io/Kbk7XrQ.md.png" alt="Slide 3" class="fade-slide">
+      <img src="https://iili.io/Kbh1xgS.png" alt="Slide 4" class="fade-slide">
+      <img src="https://iili.io/KbjSqes.png" alt="Slide 5" class="fade-slide">
+      <img src="https://iili.io/Kbk7XrQ.md.png" alt="Slide 6" class="fade-slide">
+    </div>
+  </div>
+</div>
+
+<!-- Motivational Popup -->
+<div class="popup-msg" id="popup">
+  हम अपनी वेबसाइट पर केवल रखरखाव (maintenance) के खर्चों को पूरा करने के लिए ही विज्ञापन दिखाते हैं। असुविधा के लिए हमें खेद है।
+"
+</div>
+
+<script>
+  setTimeout(() => {
+    document.getElementById('popup').style.display = 'block';
+    setTimeout(() => {
+      document.getElementById('popup').style.display = 'none';
+    }, 8000);
+  }, 1500);
+</script>
+
+<!-- Floating Music Button -->
+<style>
+  #music-toggle {
+    position: fixed;
+    right: 20px; bottom: 20px;
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    border: none; cursor: pointer;
+    background: linear-gradient(135deg, #111827, #1f2937);
+    color: white; display: flex;
+    align-items: center; justify-content: center;
+    z-index: 9999; box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    transition: all 0.3s ease;
+  }
+  #music-toggle svg { width: 28px; height: 28px; }
+  #music-toggle.playing {
+    background: linear-gradient(135deg, #10b981, #047857);
+    animation: pulse 1.4s infinite;
+  }
+  @keyframes pulse {
+    0%{box-shadow:0 0 12px rgba(16,185,129,0.4);}
+    50%{box-shadow:0 0 24px rgba(16,185,129,0.8);}
+    100%{box-shadow:0 0 12px rgba(16,185,129,0.4);}
+  }
+</style>
+
+<button id="music-toggle" title="Play / Pause Music">
+  <svg id="icon-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+  <svg id="icon-pause" viewBox="0 0 24 24" fill="currentColor" style="display:none;"><path d="M6 19h4V5H6v14zM14 5v14h4V5h-4z"/></svg>
+</button>
+
+<audio id="site-music" preload="none">
+  <source src="https://vocal-bronze-szk8mxbi2i-syqt4iz354.edgeone.dev/ElevenLabs_Text_to_Speech_audio%20(1).mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const btn = document.getElementById('music-toggle');
+  const audio = document.getElementById('site-music');
+  const playIcon = document.getElementById('icon-play');
+  const pauseIcon = document.getElementById('icon-pause');
+  audio.loop = false; audio.volume = 0.6;
+  btn.addEventListener('click', () => {
+    if (audio.paused) { audio.play(); btn.classList.add('playing'); playIcon.style.display='none'; pauseIcon.style.display='block'; }
+    else { audio.pause(); btn.classList.remove('playing'); playIcon.style.display='block'; pauseIcon.style.display='none'; }
+  });
+</script>
+{% endblock content %}

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>BoardMate - Privacy & Terms</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+    .bs-example {
+      margin: 0px;
+    }
+
+    .bg-dark {
+      background-color: #212529 !important;
+    }
+
+    .navbar-brand {
+      font-size: 20px;
+      font-family: sans-serif;
+    }
+
+    .modal-content {
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .nav-item:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bs-example">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: #000000;">
+      <a style="color: #ffffff;text-decoration: none;" href="/">
+        <font face="Comic sans MS" size="5">BOARD MATE </font><br />
+      </a>
+      <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <div class="navbar-nav">
+          <a style="padding-left: 30px;" href="/" class="nav-item nav-link active">Home</a>
+          <a href="/teacher/teacherclick" class="nav-item nav-link">Teacher</a>
+          <a href="/student/studentclick" class="nav-item nav-link">Student</a>
+          <a href="/adminclick" class="nav-item nav-link">Admin</a>
+        </div>
+
+        <div class="navbar-nav">
+          <a href="/aboutus" class="nav-item nav-link">About Us</a>
+          <a href="/contactus" class="nav-item nav-link">Contact Us</a>
+          <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#privacyModal">Privacy Policy</a>
+          <a href="#" class="nav-item nav-link" data-toggle="modal" data-target="#termsModal">Terms & Conditions</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+
+  <br><br><br><br>
+
+  <!-- Privacy Policy Modal -->
+  <div class="modal fade" id="privacyModal" tabindex="-1" role="dialog" aria-labelledby="privacyModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title" id="privacyModalLabel">Privacy Policy - BoardMate</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>1. Introduction</h5>
+          <p>Welcome to <b>BoardMate</b>, a private EdTech platform created to help Bihar Board students (Classes 9–12) learn, practice, and test their knowledge online. This Privacy Policy explains how we collect, use, and protect your information.</p>
+
+          <h5>2. Information We Collect</h5>
+          <ul>
+            <li>Basic details such as your name, email, and class (only when you register).</li>
+            <li>Usage data like quiz attempts, scores, and time spent for learning improvement.</li>
+            <li>We use third-party advertising partners (e.g., Google AdSense) to serve relevant ads.</li>
+          </ul>
+
+          <h5>3. How We Use Your Information</h5>
+          <p>We use your data to provide a better learning experience, personalize quizzes, and show relevant content and ads. BoardMate does not sell or share personal data with any unrelated third parties.</p>
+
+          <h5>4. Cookies</h5>
+          <p>We use cookies to save your preferences and enhance your browsing experience. You can disable cookies in your browser settings.</p>
+
+          <h5>5. Advertisements</h5>
+          <p>Our platform is ad-supported. Ads help us offer free educational content to all users. Third-party ad services may use cookies to display personalized ads based on your browsing patterns.</p>
+
+          <h5>6. Data Security</h5>
+          <p>We employ security practices to protect your information from unauthorized access. However, online systems can never be 100% secure, so users share information at their own discretion.</p>
+
+          <h5>7. Children’s Privacy</h5>
+          <p>We are committed to protecting the privacy of minors. Students under 18 are encouraged to use the platform under the guidance of parents or guardians.</p>
+
+          <h5>8. Updates</h5>
+          <p>This Privacy Policy may be updated periodically. The most recent version will always be available on this page.</p>
+
+          <h5>9. Contact Us</h5>
+          <p>If you have questions or concerns, contact us at <b>contactboardmate@gmail.com/contact.boardmate@protonmail.com  </b>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Terms & Conditions Modal -->
+  <div class="modal fade" id="termsModal" tabindex="-1" role="dialog" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-dark text-white">
+          <h5 class="modal-title" id="termsModalLabel">Terms & Conditions - BoardMate</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h5>1. About BoardMate</h5>
+          <p><b>BoardMate</b> is a privately owned EdTech initiative, not affiliated with the Bihar School Examination Board or any government institution. We provide digital study materials, quizzes, and exam preparation tools free of cost.</p>
+
+          <h5>2. User Responsibilities</h5>
+          <ul>
+            <li>Users must use the website for educational and lawful purposes only.</li>
+            <li>Any misuse, hacking, or unauthorized access attempt is strictly prohibited.</li>
+          </ul>
+
+          <h5>3. Content and Accuracy</h5>
+          <p>We strive to maintain accurate and up-to-date content. However, BoardMate does not guarantee 100% accuracy and is not liable for any errors or omissions in study materials or quizzes.</p>
+
+          <h5>4. Advertisement Disclaimer</h5>
+          <p>Our services are supported by ads. These advertisements are managed by third-party networks and may not always reflect BoardMate’s views or recommendations.</p>
+
+          <h5>5. Intellectual Property</h5>
+          <p>All website content, design, logos, and materials belong to BoardMate. Users may not copy or distribute without permission.</p>
+
+          <h5>6. Limitation of Liability</h5>
+          <p>BoardMate shall not be responsible for any loss or damage arising from the use of this platform, including technical issues, downtime, or data errors.</p>
+
+          <h5>7. Changes to Terms</h5>
+          <p>BoardMate reserves the right to update these terms anytime without prior notice. Continued use of the site implies acceptance of revised terms.</p>
+
+          <h5>8. Legal Jurisdiction</h5>
+          <p>These terms are governed by the laws of India. Any disputes shall be handled under the jurisdiction of Bihar, India.</p>
+
+          <h5>9. Contact</h5>
+          <p>For legal queries, please contact <b>contactboardmate@gmail.com/contact.boardmate@protonmail.com </b>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

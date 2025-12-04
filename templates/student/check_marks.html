@@ -1,0 +1,266 @@
+{% extends 'student/studentbase.html' %}
+{% block content %}
+{% load static %}
+
+<head>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #e0f7fa, #e3f2fd, #ede7f6);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .result-card {
+      margin: 80px auto;
+      max-width: 600px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+      text-align: center;
+      padding: 40px 25px;
+      position: relative;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      overflow: hidden;
+    }
+
+    .result-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+    }
+
+    .result-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 180deg, #007bff, #00e5ff, #00c853, #ffab00, #007bff);
+      animation: rotateGlow 6s linear infinite;
+      z-index: 0;
+      opacity: 0.1;
+    }
+
+    @keyframes rotateGlow {
+      100% { transform: rotate(360deg); }
+    }
+
+    .result-card * {
+      position: relative;
+      z-index: 1;
+    }
+
+    h3 {
+      color: #007bff;
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+
+    .marks-box {
+      background-color: #f1f3f6;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 20px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .marks-box:hover {
+      transform: scale(1.05);
+    }
+
+    .btn-home, .btn-share {
+      display: inline-block;
+      margin: 10px 8px;
+      padding: 10px 22px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #fff;
+      transition: all 0.3s ease;
+    }
+
+    .btn-home {
+      background-color: #007bff;
+    }
+
+    .btn-home:hover {
+      background-color: #0056b3;
+    }
+
+    .btn-share {
+      background-color: #28a745;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(40,167,69,0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(40,167,69,0); }
+      100% { box-shadow: 0 0 0 0 rgba(40,167,69,0); }
+    }
+
+    .btn-share:hover {
+      background-color: #218838;
+      transform: scale(1.1);
+    }
+
+    /* Modal Styling */
+    .share-modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .share-modal-content {
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      animation: popIn 0.4s ease;
+      text-align: center;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .share-btn {
+      display: inline-block;
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      margin: 8px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: transform 0.2s;
+      font-weight: 500;
+    }
+
+    .share-btn:hover {
+      transform: scale(1.1);
+      opacity: 0.9;
+    }
+
+    .close-btn {
+      background-color: #ff4444;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      margin-top: 15px;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      background-color: #cc0000;
+    }
+
+  </style>
+
+</head>
+
+<div class="result-card">
+  <h3>🎯 परीक्षा परिणाम</h3>
+
+  <p><b>विषय:</b> {{ exam.course }}</p>
+  <p><b>कुल प्रश्न:</b> {{ total_questions }}</p>
+  <p><b>कुल अंक:</b> {{ total_marks }}</p>
+
+ <div class="marks-box">
+    <h4 style="font-size:24px; font-weight:700; color:#007bff; margin-bottom:15px;">आपके अंक</h4>
+    
+    <!-- Marks -->
+    <p style="font-size:36px; font-weight:800; color:#28a745; margin:10px 0;">
+        {{ obtained_marks }} / {{ total_marks }}
+    </p>
+
+    <!-- Percentage -->
+    <p style="font-size:32px; font-weight:700; color:#ff5722; margin:10px 0;">
+      {% if percentage >= 50 %}
+        🎉 बहुत बढ़िया! आपने <span style="font-size:36px; font-weight:900;">{{ percentage }}%</span> अंक प्राप्त किए।
+      {% else %}
+        ⚠️ आपने <span style="font-size:36px; font-weight:900; color:#f44336;">{{ percentage }}%</span> अंक प्राप्त किए, अगली बार और बेहतर करें।
+      {% endif %}
+    </p>
+
+    <!-- Last Attempt Date & Time -->
+    <p style="margin-top:15px; color:#555; font-size:14px;">
+        : THANKYOU FOR CHOSING BOARD MATE {{ exam_date|date:"d/m/Y - h:i A" }} [BY BM LLC]
+    </p>
+</div>
+
+  <br>
+  <a href="{% url 'student-dashboard' %}" class="btn-home">🏠 डैशबोर्ड पर जाएँ</a>
+  <a href="#" class="btn-share" onclick="openShareModal()">📤 शेयर करें</a>
+</div>
+
+<!-- Share Modal -->
+
+<div id="shareModal" class="share-modal">
+  <div class="share-modal-content">
+    <h4>📢 अपना परिणाम शेयर करें</h4>
+    <p>दोस्तों के साथ साझा करें और उन्हें भी टेस्ट देने के लिए प्रेरित करें!</p>
+    <div>
+      <a href="#" id="whatsappShare" class="share-btn" style="background:#25D366;">WhatsApp</a>
+      <a href="#" id="telegramShare" class="share-btn" style="background:#0088cc;">Telegram</a>
+      <a href="#" id="facebookShare" class="share-btn" style="background:#1877F2;">Facebook</a>
+      <a href="#" id="twitterShare" class="share-btn" style="background:#1DA1F2;">Twitter</a>
+    </div>
+    <button class="close-btn" onclick="closeShareModal()">बंद करें</button>
+  </div>
+</div>
+
+<script>
+function openShareModal() {
+  document.getElementById('shareModal').style.display = 'flex';
+}
+
+function closeShareModal() {
+  document.getElementById('shareModal').style.display = 'none';
+}
+
+const resultText = `🎯 मेरा परीक्षा परिणाम!\nविषय: {{ exam.course }}\nअंक: {{ obtained_marks }}/{{ total_marks }}\nप्रतिशत: {{ percentage }}%\n🔥 BoardMate से टेस्ट दो और खुद को परखो!`;
+
+document.getElementById('whatsappShare').onclick = function() {
+  const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(resultText);
+  window.open(url, '_blank');
+}
+
+document.getElementById('telegramShare').onclick = function() {
+  const url = "https://t.me/share/url?url=" + encodeURIComponent(window.location.href) + "&text=" + encodeURIComponent(resultText);
+  window.open(url, '_blank');
+}
+
+document.getElementById('facebookShare').onclick = function() {
+  const url = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(window.location.href) + "&quote=" + encodeURIComponent(resultText);
+  window.open(url, '_blank');
+}
+
+document.getElementById('twitterShare').onclick = function() {
+  const url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(resultText);
+  window.open(url, '_blank');
+}
+</script>
+
+{% endblock content %}

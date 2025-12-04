@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>About Us | Board Mate</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', 'Noto Sans Devanagari', sans-serif;
+      background: linear-gradient(180deg, #f8f9fa, #eef2f3);
+      color: #212529;
+      overflow-x: hidden;
+    }
+
+    .jumbotron {
+      background: white;
+      border-radius: 25px;
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
+      padding: 3rem 2rem;
+      margin: 20px auto;
+      max-width: 900px;
+      transition: transform 0.3s ease;
+    }
+
+    .jumbotron:hover {
+      transform: translateY(-5px);
+    }
+
+    h3.alert-success {
+      font-weight: 700;
+      font-size: 28px;
+      letter-spacing: 1px;
+      background: linear-gradient(to right, #28a745, #20c997);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.lead {
+      font-size: 17px;
+      line-height: 1.8;
+      text-align: justify;
+      color: #444;
+    }
+
+    .highlight {
+      font-weight: 600;
+      color: #007bff;
+    }
+
+    hr.my-4 {
+      border-top: 2px solid #007bff;
+      width: 60%;
+      margin: 30px auto;
+    }
+
+    .btn-primary {
+      background: linear-gradient(to right, #007bff, #00c6ff);
+      border: none;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-size: 16px;
+      transition: all 0.3s ease-in-out;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(to right, #0056b3, #00a2ff);
+      transform: scale(1.05);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .jumbotron {
+        padding: 2rem 1.2rem;
+      }
+
+      p.lead {
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% include "quiz/navbar.html" %}
+  <br><br>
+
+  <center>
+    <h3 class="alert alert-success" style="margin-bottom: 0;">About Us !</h3>
+  </center>
+
+  <div class="jumbotron">
+    <p class="lead">
+      📘 <span class="highlight">About Board Mate</span><br>
+      Board Mate एक संपूर्ण अध्ययन साथी है, जो विशेष रूप से बिहार बोर्ड के कक्षा 9 से 12 तक के छात्रों के लिए बनाया गया है। हमारा उद्देश्य है – हर छात्र के लिए पढ़ाई को आसान, स्मार्ट और परीक्षा-केंद्रित बनाना।<br><br>
+
+      इस प्लेटफ़ॉर्म पर आपको अध्यायवार नोट्स, महत्वपूर्ण प्रश्न, मॉडल पेपर्स, क्विज़ और पिछले वर्षों के प्रश्न (PYQs) तक सब कुछ एक ही जगह पर मिलेगा। हर विषय को नवीनतम बिहार बोर्ड सिलेबस के अनुसार तैयार किया गया है ताकि कोई भी टॉपिक छूट न जाए।<br><br>
+
+      🎯 <span class="highlight">Our Mission</span><br>
+      हमारा मिशन है बिहार के छात्रों को ऐसे डिजिटल टूल्स देना जो उन्हें कभी भी, कहीं भी, बिना भ्रम और बिना महंगे कोचिंग के, आत्मविश्वास के साथ पढ़ने में मदद करें।<br><br>
+
+      💡 <span class="highlight">Our Vision</span><br>
+      हमारा सपना है एक ऐसा बिहार जहाँ हर छात्र को उच्च गुणवत्ता की शिक्षा, सही मार्गदर्शन और प्रेरणा आसानी से उनके मोबाइल पर मिले।<br><br>
+
+      👨‍💻 <span class="highlight">Made with dedication by Aditya Jha</span><br>
+      Board Mate सिर्फ़ एक ऐप नहीं, बल्कि एक छात्र का सच्चा मित्र है —  इसे लगन, धैर्य और उद्देश्य के साथ तैयार किया गया है ताकि लाखों छात्र स्मार्ट तरीके से पढ़ सकें और चमक सकें।<br><br>
+
+      📚 <span class="highlight">Subjects Covered</span><br>
+      कक्षा 9, 10, 11 और 12 के सभी प्रमुख विषय — विज्ञान, गणित, अंग्रेज़ी, हिंदी, समाज विज्ञान और अन्य — अब एक ही सरल और साफ़ प्लेटफ़ॉर्म पर उपलब्ध हैं।<br><br>
+
+      ✨ <b>Board Mate – Study Smart. Score Better.</b><br>
+      <b>THANK YOU BOARD MATE TEAM 💙</b>
+    </p>
+
+    <hr class="my-4">
+
+    <p style="text-align:center;">Explore our Website</p>
+    <p class="lead text-center">
+      <a class="btn btn-primary btn-lg" href="/" role="button">🏠 HOME</a>
+    </p>
+  </div>
+
+  {% include "quiz/footer.html" %}
+</body>
+</html>

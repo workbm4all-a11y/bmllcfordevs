@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Feedback | BoardMate</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Lottie Animation -->
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #f0f9ff, #cbebff);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feedback-container {
+      max-width: 600px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      padding: 30px 40px;
+      margin: auto;
+      animation: fadeInUp 0.8s ease;
+    }
+
+    h3.alert {
+      width: fit-content;
+      margin: 20px auto;
+      border-radius: 50px;
+      padding: 10px 25px;
+    }
+
+    input[type="submit"] {
+      border-radius: 30px;
+      padding: 10px 25px;
+      font-weight: 500;
+      background-color: #007bff;
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  {% include "quiz/navbar.html" %}
+  <br><br>
+
+  <div class="container">
+    <div class="feedback-container">
+      <center>
+        <!-- Lottie Animation -->
+        <dotlottie-wc src="https://lottie.host/eef48e76-92bc-4e53-bb01-f26cd595b7c8/UdCt94BcA0.lottie"
+          style="width: 300px; height: 300px;" autoplay loop>
+        </dotlottie-wc>
+
+        <h3 class="alert alert-success">Send Us Your Valuable Feedback!</h3>
+      </center>
+
+      <form method="POST" autocomplete="off">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ form.as_p }}
+          <br>
+          <center>
+            <input type="submit" value="Send Message" class="btn btn-primary btn-lg">
+          </center>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% include "quiz/footer.html" %}
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

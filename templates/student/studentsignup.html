@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+{% load static widget_tweaks %}
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Student Signup | BoardMate</title>
+
+  <!-- Lottie Script -->
+  <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js" type="module"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #b92b27, #1565c0);
+      overflow-x: hidden;
+    }
+
+    .signup-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      gap: 70px;
+      padding: 50px 0;
+    }
+
+    .box {
+      width: 450px;
+      padding: 40px;
+      background: #191919;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .box h1 {
+      color: white;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    label {
+      color: #ccc;
+      font-weight: 500;
+    }
+
+    input.form-control {
+      background: none;
+      border: 2px solid #3498db;
+      border-radius: 24px;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 8px;
+      transition: 0.25s;
+    }
+
+    input.form-control:focus {
+      border-color: #2ecc71;
+      width: 95%;
+    }
+
+    button {
+      border: 2px solid #2ecc71;
+      border-radius: 24px;
+      background: none;
+      color: white;
+      padding: 12px 40px;
+      margin-top: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #2ecc71;
+    }
+
+    .anim-box {
+      width: 450px;
+      height: 450px;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    @media (max-width: 900px) {
+      .signup-container {
+        flex-direction: column;
+      }
+      .anim-box {
+        width: 320px;
+        height: 320px;
+      }
+      .box {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  {% include "quiz/navbar.html" %}
+
+  <div class="signup-container">
+
+    <!-- ✅ Bigger Animation -->
+    <div class="anim-box">
+      <dotlottie-wc 
+        src="https://lottie.host/24804c7d-07c0-4317-935c-51e893409fec/KtVYZ3tNk0.lottie" 
+        style="width: 450px; height: 450px;" 
+        autoplay 
+        loop>
+      </dotlottie-wc>
+    </div>
+
+    <!-- ✅ Signup Form -->
+    <form class="box" method="POST" autocomplete="off" enctype="multipart/form-data">
+      {% csrf_token %}
+      <h1>Student Signup</h1>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Username</label>
+          {% render_field userForm.username|attr:'required:true' class="form-control" placeholder="Username" %}
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          {% render_field userForm.password|attr:'required:true' class="form-control" placeholder="Password" %}
+        </div>
+        <div class="form-group">
+          <label>First Name</label>
+          {% render_field userForm.first_name|attr:'required:true' class="form-control" placeholder="First Name" %}
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          {% render_field userForm.last_name|attr:'required:true' class="form-control" placeholder="Last Name" %}
+        </div>
+        <div class="form-group">
+          <label>Mobile</label>
+          {% render_field studentForm.mobile|attr:'required:true' class="form-control" placeholder="Mobile" %}
+        </div>
+        <div class="form-group">
+          <label>E-Mail Address</label>
+          {% render_field studentForm.address|attr:'required:true' class="form-control" placeholder="E-Mail Address" %}
+        </div>
+        <div class="form-group">
+          <label>Profile Picture</label>
+          {% render_field studentForm.profile_pic|attr:'required:true' class="form-control" %}
+        </div>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  {% include "quiz/footer.html" %}
+</body>
+</html>
