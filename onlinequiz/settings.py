@@ -27,7 +27,8 @@ SECRET_KEY = '@k0#p3kidu)yaaa3u1hplxz)f@^6xiy384*(+n@@s5x#1bx@m5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.onrender.com', 'localhost']
+
 
 
 # Application definition
@@ -50,13 +51,15 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',   # <--- ADD THIS
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 CSRF_COOKIE_SECURE=False
 ROOT_URLCONF = 'onlinequiz.urls'
 
@@ -147,11 +150,8 @@ EMAIL_HOST_PASSWORD = 'waig ntos tnqc zkyy' # host email password required
 # otherwise you will get SMTPAuthenticationError at /contactus
 # this process is required because google blocks apps authentication by default
 EMAIL_RECEIVING_USER = ['contactboardmate@gmail.com'] # email on which you will receive messages sent from website
-<<<<<<< HEAD
-=======
-# settings.py (LAST LINE)
-
 STATIC_URL = '/static/'
-
->>>>>>> 27e0c332710909610722eb25df00e193528f9d1a
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
